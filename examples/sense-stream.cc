@@ -83,14 +83,20 @@ int main(int argc, char *argv[]) {
 
   // Init the sense
   sense::Parameters sense_params;
-  sense_params.audio_format = sense::AF_FLOAT32;
+
+  sense_params.metrics.retention_period = 0;   // range, 1 to 31 days
+  sense_params.metrics.free_disk_space = 100;  // range, 0 to 1,000,000 MB
+  sense_params.metrics.push_period = 30;       // range, 1 to 3,600 seconds
+
+  sense_params.device_name = "Testing device";
+
   if (sense::Init("Your project key",
                   sense_params) < 0) {
     return -1;
   }
 
   // Create a sense audio stream instance
-  sense::AudioSourceStream<float> audio_source_stream;
+  sense::AudioSourceStream audio_source_stream;
   std::vector<float> audio_sample(SAMPLE_RATE);
   bool first_frame = true;
 
