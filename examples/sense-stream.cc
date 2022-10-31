@@ -141,5 +141,6 @@ int main(int argc, char *argv[]) {
     }
   }
   finish(s);
+  sense::Terminate();
   return 0;
 }
