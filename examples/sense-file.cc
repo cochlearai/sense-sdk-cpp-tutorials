@@ -37,7 +37,7 @@ bool FilePrediction(const std::string& file_path) {
 int main(int argc, char *argv[]) {
   // Read a .wav file.
   if (argc != 2) {
-    std::cout << "Usage: sense-file <.wav file name>" << std::endl;
+    std::cout << "Usage: sense-file <PATH_TO_AUDIO_FILE>" << std::endl;
     exit(0);
   }
 
