@@ -87,6 +87,7 @@ int main(int argc, char *argv[]) {
   sense_params.metrics.retention_period = 0;   // range, 1 to 31 days
   sense_params.metrics.free_disk_space = 100;  // range, 0 to 1,000,000 MB
   sense_params.metrics.push_period = 30;       // range, 1 to 3,600 seconds
+  sense_params.log_level = 0;
 
   sense_params.device_name = "Testing device";
 

@@ -37,7 +37,7 @@ bool FilePrediction(const std::string& file_path) {
 int main(int argc, char *argv[]) {
   // Read a .wav file.
   if (argc != 2) {
-    std::cout << "Usage: sense-file <.wav file name>" << std::endl;
+    std::cout << "Usage: sense-file <PATH_TO_AUDIO_FILE>" << std::endl;
     exit(0);
   }
 
@@ -45,15 +45,17 @@ int main(int argc, char *argv[]) {
   sense_params.metrics.retention_period = 0;   // range, 1 to 31 days
   sense_params.metrics.free_disk_space = 100;  // range, 0 to 1,000,000 MB
   sense_params.metrics.push_period = 30;       // range, 1 to 3,600 seconds
+  sense_params.log_level = 0;
 
   sense_params.device_name = "Testing device";
 
-  if (sense::Init("Your project key", sense_params) < 0) {
+  if (sense::Init("Your project key",
+                  sense_params) < 0) {
     return -1;
   }
 
   if (!FilePrediction(argv[1]))
-    std::cerr << "File prediction failed." << std::endl;;
+    std::cerr << "File prediction failed." << std::endl;
   sense::Terminate();
   return 0;
 }
