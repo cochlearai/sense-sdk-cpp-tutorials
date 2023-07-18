@@ -28,9 +28,8 @@ limitations under the License.
 #define BUF_SIZE (SAMPLE_RATE) / 2
 
 void finish(pa_simple *s) {
-  if (s) {
+  if (s)
     pa_simple_free(s);
-  }
 }
 
 static bool running = true;
@@ -67,20 +66,6 @@ int main(int argc, char *argv[]) {
 
   init_signal();
 
-  pa_simple *s = NULL;
-  int error;
-  // Create the recording stream
-  if (!(s = pa_simple_new(NULL, argv[0],
-                          PA_STREAM_RECORD, NULL,
-                          "record", &ss,
-                          NULL, NULL, &error))) {
-    fprintf(stderr,
-            __FILE__": pa_simple_new() failed: %s\n",
-            pa_strerror(error));
-    finish(s);
-    return -1;
-  }
-
   // Init the sense
   sense::Parameters sense_params;
 
@@ -100,6 +85,21 @@ int main(int argc, char *argv[]) {
   sense::AudioSourceStream audio_source_stream;
   std::vector<float> audio_sample(SAMPLE_RATE);
   bool first_frame = true;
+
+  pa_simple *s = NULL;
+  int error;
+  // Create the recording stream
+  if (!(s = pa_simple_new(NULL, argv[0],
+                          PA_STREAM_RECORD, NULL,
+                          "record", &ss,
+                          NULL, NULL, &error))) {
+    fprintf(stderr,
+            __FILE__": pa_simple_new() failed: %s\n",
+            pa_strerror(error));
+    finish(s);
+    return -1;
+  }
+
 
   /*
   The sense is meant to be used with the audio frames overlapping
