@@ -19,26 +19,46 @@ limitations under the License.
 #include "sense/sense.hpp"
 #include "sense/audio_source_file.hpp"
 
-// For the file prediction, the sense accepts any kind of audio sample size
-// the sample size will then be cut in different frames depending on
-// the SAMPLE_RATE provided during the sense.Init (default is 22050).
-// Use the AudioSourceFile if you want to process a large content at once.
+// The file with a sample rate lower than 22,050 Hz can’t be used.
+// If the sample rate is higher than 22,050 Hz, The Cochl.Sense will
+// downsample the audio internally.
 bool FilePrediction(const std::string& file_path) {
+  // Create a sense audio file instance
   sense::AudioSourceFile audio_source_file;
-  if (audio_source_file.Load(file_path) < 0)
-    return false;
+  const bool result_abbreviation =
+      sense::get_parameters().result_abbreviation.enable;
 
-  // Returns a Result object containing multiple FrameResult.
+  if (audio_source_file.Load(file_path) < 0) return false;
+
+  // Run the prediction, and it will return a 'Result' object containing
+  // multiple 'FrameResult' objects.
   sense::Result result = audio_source_file.Predict();
-  std::cout << result << std::endl;
+  if (!result) {
+    std::cerr << result.error << std::endl;
+    return false;
+  }
+  if (result_abbreviation) {
+    std::cout << "<Result summary>" << std::endl;
+    if (result.abbreviations.empty()) {
+      std::cout << "There are no detected tags." << std::endl;
+    } else {
+      for (const auto& abbreviation : result.abbreviations)
+        std::cout << abbreviation << std::endl;
+      // Even if you use the result abberviation, you can still get precise
+      // results like below if necessary:
+      // std::cout << result << std::endl;
+    }
+  } else {
+    std::cout << result << std::endl;
+  }
   return true;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   // Read a .wav file.
   if (argc != 2) {
     std::cout << "Usage: sense-file <PATH_TO_AUDIO_FILE>" << std::endl;
-    exit(0);
+    return 0;
   }
 
   sense::Parameters sense_params;
@@ -48,6 +68,11 @@ int main(int argc, char *argv[]) {
   sense_params.log_level = 0;
 
   sense_params.device_name = "Testing device";
+
+  sense_params.hop_size_control.enable = true;
+  sense_params.sensitivity_control.enable = true;
+  sense_params.result_abbreviation.enable = true;
+  sense_params.label_hiding.enable = false;  // stream mode only
 
   if (sense::Init("Your project key",
                   sense_params) < 0) {
@@ -59,3 +84,4 @@ int main(int argc, char *argv[]) {
   sense::Terminate();
   return 0;
 }
+
