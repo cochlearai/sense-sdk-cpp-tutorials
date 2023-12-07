@@ -39,15 +39,11 @@ bool FilePrediction(const std::string& file_path) {
   }
   if (result_abbreviation) {
     std::cout << "<Result summary>" << std::endl;
-    if (result.abbreviations.empty()) {
-      std::cout << "There are no detected tags." << std::endl;
-    } else {
-      for (const auto& abbreviation : result.abbreviations)
-        std::cout << abbreviation << std::endl;
-      // Even if you use the result abberviation, you can still get precise
-      // results like below if necessary:
-      // std::cout << result << std::endl;
-    }
+    for (const auto& abbreviation : result.abbreviations)
+      std::cout << abbreviation << std::endl;
+    // Even if you use the result abberviation, you can still get precise
+    // results like below if necessary:
+    // std::cout << result << std::endl;
   } else {
     std::cout << result << std::endl;
   }
