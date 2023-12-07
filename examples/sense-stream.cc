@@ -128,7 +128,6 @@ bool StreamPrediction() {
     // In other words, we will disregard any data from intervals that start at
     // 0.5-second frames.
     if (!hop_size_control && half_second) continue;
-    if (!hop_size_control && half_second) continue;
 
     // Run the prediction, and it will return a 'FrameResult' object.
     sense::FrameResult frame_result = audio_source_stream.Predict(audio_sample);
