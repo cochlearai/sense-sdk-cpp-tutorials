@@ -88,7 +88,7 @@ bool StreamPrediction() {
   const bool hop_size_control =
       sense::get_parameters().hop_size_control.enable;
 
-  // The Cochl.Sense is meant to be used with the audio frames overlapping:
+  // The Sense SDK is meant to be used with the audio frames overlapping:
   //
   //   [+ + + +]             : first frame,  0.0-1.0 s
   //       [+ + + +]         : second frame, 0.5-1.5 s

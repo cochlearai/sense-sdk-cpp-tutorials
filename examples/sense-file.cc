@@ -20,7 +20,7 @@ limitations under the License.
 #include "sense/audio_source_file.hpp"
 
 // The file with a sample rate lower than 22,050 Hz can’t be used.
-// If the sample rate is higher than 22,050 Hz, The Cochl.Sense will
+// If the sample rate is higher than 22,050 Hz, The Sense SDK will
 // downsample the audio internally.
 bool FilePrediction(const std::string& file_path) {
   // Create a sense audio file instance
