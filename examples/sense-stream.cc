@@ -138,7 +138,7 @@ bool StreamPrediction() {
     if (result_abbreviation) {
       for (const auto& abbreviation : frame_result.abbreviations)
         std::cout << abbreviation << std::endl;
-      // Even if you use the result abberviation, you can still get precise
+      // Even if you use the result abbreviation, you can still get precise
       // results like below if necessary:
       // std::cout << frame_result << std::endl;
     } else {

@@ -41,7 +41,7 @@ bool FilePrediction(const std::string& file_path) {
     std::cout << "<Result summary>" << std::endl;
     for (const auto& abbreviation : result.abbreviations)
       std::cout << abbreviation << std::endl;
-    // Even if you use the result abberviation, you can still get precise
+    // Even if you use the result abbreviation, you can still get precise
     // results like below if necessary:
     // std::cout << result << std::endl;
   } else {
