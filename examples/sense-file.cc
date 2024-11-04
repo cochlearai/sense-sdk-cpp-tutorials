@@ -1,23 +1,21 @@
-/*
-  Copyright 2020 Thibault Bougerolles <tbougerolles@cochlear.ai>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright 2024 Cochl.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <iostream>
 
-#include "sense/sense.hpp"
 #include "sense/audio_source_file.hpp"
+#include "sense/sense.hpp"
 
 // The file with a sample rate lower than 22,050 Hz can’t be used.
 // If the sample rate is higher than 22,050 Hz, The Sense SDK will
@@ -37,6 +35,7 @@ bool FilePrediction(const std::string& file_path) {
     std::cerr << result.error << std::endl;
     return false;
   }
+
   if (result_abbreviation) {
     std::cout << "<Result summary>" << std::endl;
     for (const auto& abbreviation : result.abbreviations)
@@ -65,19 +64,13 @@ int main(int argc, char* argv[]) {
 
   sense_params.device_name = "Testing device";
 
-  sense_params.hop_size_control.enable = true;
   sense_params.sensitivity_control.enable = true;
   sense_params.result_abbreviation.enable = true;
-  sense_params.label_hiding.enable = false;  // stream mode only
 
-  if (sense::Init("Your project key",
-                  sense_params) < 0) {
-    return -1;
-  }
+  if (sense::Init("Your project key", sense_params) < 0) return -1;
 
   if (!FilePrediction(argv[1]))
     std::cerr << "File prediction failed." << std::endl;
   sense::Terminate();
   return 0;
 }
-
