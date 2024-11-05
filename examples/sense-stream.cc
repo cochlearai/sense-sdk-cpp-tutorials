@@ -1,4 +1,4 @@
-// Copyright 2024 Cochl.
+// Copyright 2021-2024 Cochl.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@
 #include "sense/sense.hpp"
 
 #define SAMPLE_RATE (22050)
-#define BUF_SIZE (SAMPLE_RATE)
 
 static bool running = true;
 
@@ -86,10 +85,12 @@ bool StreamPrediction() {
 
   // Create a sense audio stream instance
   sense::AudioSourceStream audio_source_stream;
+  // The buffer size must be obtained in the following way after calling the
+  // init method:
+  const int buf_size = audio_source_stream.get_buffer_size();
+
   std::vector<int16_t> audio_sample;
-  std::vector<int16_t> buf(BUF_SIZE);
-  const bool result_abbreviation =
-      sense::get_parameters().result_abbreviation.enable;
+  std::vector<int16_t> buf(buf_size);
 
   // The Sense SDK is meant to be used with the audio frames overlapping:
   //
@@ -104,9 +105,11 @@ bool StreamPrediction() {
   // and push back 1 second.
   // The main reason to do this is to ensure we catch an event if something
   // occurs between two frames.
+  const bool result_abbreviation =
+      sense::get_parameters().result_abbreviation.enable;
   while (running) {
     // Record some data ...
-    if (pa_simple_read(s, buf.data(), BUF_SIZE * sizeof(int16_t), &error) < 0) {
+    if (pa_simple_read(s, buf.data(), buf_size * sizeof(int16_t), &error) < 0) {
       fprintf(stderr,
               __FILE__ ": pa_simple_read() failed: %s\n",
               pa_strerror(error));
@@ -116,13 +119,13 @@ bool StreamPrediction() {
 
     if (audio_sample.empty()) {
       audio_sample = {buf.begin(), buf.end()};
-      audio_sample.insert(audio_sample.begin() + BUF_SIZE,
+      audio_sample.insert(audio_sample.begin() + buf_size,
                           buf.begin(),
                           buf.end());
       continue;
     }
-    audio_sample.erase(audio_sample.begin(), audio_sample.begin() + BUF_SIZE);
-    audio_sample.insert(audio_sample.begin() + BUF_SIZE,
+    audio_sample.erase(audio_sample.begin(), audio_sample.begin() + buf_size);
+    audio_sample.insert(audio_sample.begin() + buf_size,
                         buf.begin(),
                         buf.end());
 
