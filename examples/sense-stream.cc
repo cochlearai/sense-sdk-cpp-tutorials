@@ -87,7 +87,8 @@ bool StreamPrediction() {
   sense::AudioSourceStream audio_source_stream;
   // The buffer size must be obtained in the following way after calling the
   // init method:
-  const int buf_size = audio_source_stream.get_buffer_size();
+  const auto buf_size = static_cast<int>(SAMPLE_RATE * ss.channels *
+                                         audio_source_stream.get_hop_size());
 
   std::vector<int16_t> audio_sample;
   std::vector<int16_t> buf(buf_size);
@@ -130,7 +131,8 @@ bool StreamPrediction() {
                         buf.end());
 
     // Run the prediction, and it will return a 'FrameResult' object.
-    sense::FrameResult frame_result = audio_source_stream.Predict(audio_sample);
+    sense::FrameResult frame_result =
+        audio_source_stream.Predict(audio_sample, SAMPLE_RATE);
     if (!frame_result) {
       std::cerr << frame_result.error << std::endl;
       break;
@@ -175,3 +177,4 @@ int main(int argc, char* argv[]) {
   sense::Terminate();
   return 0;
 }
+
