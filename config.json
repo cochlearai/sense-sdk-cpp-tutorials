@@ -1,0 +1,34 @@
+{
+    "device_name": "MySenseDevice",
+    "model_delegate": 0,
+    "num_threads": -1,
+    "log_level": 0,
+    "app_path": "~",
+    "metrics": {
+      "retention_period": 7,
+      "free_disk_space": 500,
+      "push_period": 60
+    },
+    "sensitivity_control": {
+      "default_sensitivity": 0,
+      "tag_sensitivity": {
+      }
+    },
+    "result_summary": {
+      "enable": false,
+      "default_interval_margin": 0,
+      "tag_interval_margin": {
+      }
+    },
+    "audio_preprocessor": {
+      "audio_activity_detection": {
+        "enable": false,
+        "history_count": 600,
+        "sensitivity": 3
+      },
+      "automatic_gain_control": {
+        "enable": false
+      }
+    }
+  }
+  

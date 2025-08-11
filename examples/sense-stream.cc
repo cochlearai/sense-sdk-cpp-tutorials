@@ -106,8 +106,8 @@ bool StreamPrediction() {
   // and push back 1 second.
   // The main reason to do this is to ensure we catch an event if something
   // occurs between two frames.
-  const bool result_abbreviation =
-      sense::get_parameters().result_abbreviation.enable;
+  const bool result_summary =
+      sense::get_parameters().result_summary.enable;
   while (running) {
     // Record some data ...
     if (pa_simple_read(s, buf.data(), buf_size * sizeof(int16_t), &error) < 0) {
@@ -138,10 +138,10 @@ bool StreamPrediction() {
       break;
     }
 
-    if (result_abbreviation) {
-      for (const auto& abbreviation : frame_result.abbreviations)
-        std::cout << abbreviation << std::endl;
-      // Even if you use the result abbreviation, you can still get precise
+    if (result_summary) {
+      for (const auto& summary : frame_result.summaries)
+        std::cout << summary << std::endl;
+      // Even if you use the result summary, you can still get precise
       // results like below if necessary:
       // std::cout << frame_result << std::endl;
     } else {
@@ -159,22 +159,20 @@ bool StreamPrediction() {
 int main(int argc, char* argv[]) {
   init_signal();
 
-  sense::Parameters sense_params;
-  sense_params.metrics.retention_period = 0;   // range, 1 to 31 days
-  sense_params.metrics.free_disk_space = 100;  // range, 0 to 1,000,000 MB
-  sense_params.metrics.push_period = 30;       // range, 1 to 3,600 seconds
-  sense_params.log_level = 0;
+  std::string config_file_path = "./config.json";
+  std::string project_key = "Your project key";
+  if (sense::Init(project_key, config_file_path) < 0) return -1;
 
-  sense_params.device_name = "Testing device";
-
-  sense_params.sensitivity_control.enable = true;
-  sense_params.result_abbreviation.enable = true;
-
-  if (sense::Init("Your project key", sense_params) < 0) return -1;
+  std::vector<std::string> selected_tags = sense::get_selected_tags();
+  std::cout << "Selected tags: " << std::endl;;
+  for (const auto& tag : selected_tags) {
+    std::cout << "** "  << tag << std::endl;
+  }
+  std::cout << "--------------------------------" << std::endl;
+  std::cout << std::endl;
 
   if (!StreamPrediction())
     std::cerr << "Stream prediction failed." << std::endl;
   sense::Terminate();
   return 0;
 }
-
