@@ -163,14 +163,6 @@ int main(int argc, char* argv[]) {
   std::string project_key = "Your project key";
   if (sense::Init(project_key, config_file_path) < 0) return -1;
 
-  std::vector<std::string> selected_tags = sense::get_selected_tags();
-  std::cout << "Selected tags: " << std::endl;;
-  for (const auto& tag : selected_tags) {
-    std::cout << "** "  << tag << std::endl;
-  }
-  std::cout << "--------------------------------" << std::endl;
-  std::cout << std::endl;
-
   if (!StreamPrediction())
     std::cerr << "Stream prediction failed." << std::endl;
   sense::Terminate();
