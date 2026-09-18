@@ -1,34 +1,39 @@
 {
-    "device_name": "MySenseDevice",
-    "model_delegate": 0,
-    "num_threads": -1,
-    "log_level": 0,
-    "app_path": "~",
-    "metrics": {
-      "retention_period": 7,
-      "free_disk_space": 500,
-      "push_period": 60
-    },
-    "sensitivity_control": {
-      "default_sensitivity": 0,
-      "tag_sensitivity": {
-      }
-    },
-    "result_summary": {
+  "device_name": "SenseDevice",
+  "num_threads": 0,
+  "log_level": "info",
+  "app_data_path": "~",
+  "default_hopsize": 1.0,
+  "metrics": {
+    "retention_period": 0,
+    "free_disk_space": 100,
+    "push_period": 30
+  },
+  "sensitivity_control": {
+    "default_sensitivity": "NORMAL",
+    "tag_sensitivity": {
+      "Car_alarm": "VERY_LOW",
+      "Rustle": "LOW",
+      "Bell": "NORMAL",
+      "Appliance_alarm": "HIGH",
+      "Glass_break": "VERY_HIGH"
+    }
+  },
+  "result_summary": {
+    "enable": false,
+    "default_interval_margin": 0,
+    "tag_interval_margin": {
+      "Speech": 2
+    }
+  },
+  "audio_preprocessor": {
+    "audio_activity_detection": {
       "enable": false,
-      "default_interval_margin": 0,
-      "tag_interval_margin": {
-      }
+      "history_count": 600,
+      "sensitivity": "NORMAL"
     },
-    "audio_preprocessor": {
-      "audio_activity_detection": {
-        "enable": false,
-        "history_count": 600,
-        "sensitivity": 3
-      },
-      "automatic_gain_control": {
-        "enable": false
-      }
+    "automatic_gain_control": {
+      "enable": false
     }
   }
-  
+}

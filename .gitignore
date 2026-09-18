@@ -1,0 +1,13 @@
+# ===========================================================================
+# C++ tutorials -- build output, tutorial binaries, and the staged SDK.
+# ===========================================================================
+
+# --- CMake build tree ---
+/build/
+
+# --- Tutorial binaries (emitted next to config.json by CMake OUTPUT_NAME) ---
+/sense-file-app
+/sense-stream-app
+
+# --- Staged Sense SDK (release zip extracted here; see README) ---
+/sense/
