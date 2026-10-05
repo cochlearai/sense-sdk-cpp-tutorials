@@ -1,10 +1,11 @@
 # sense-sdk-cpp-tutorials
 #
-# Prerequisites: a C++14 compiler and CMake >= 3.10. sense-stream captures the
+# Prerequisites: a C++14 compiler and CMake >= 3.13 (the README's `cmake -B`
+# option was added in 3.13). sense-stream captures the
 # microphone via the vendored miniaudio header (sense-stream/third_party/);
 # the SDK library itself has no audio-device dependency
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 
 # C is required for the miniaudio implementation TU (sense-stream/third_party/*.c).
 project(sense-tutorials C CXX)
