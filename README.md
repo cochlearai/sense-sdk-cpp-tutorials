@@ -5,7 +5,7 @@
 
 ## 1. Build
 
-Prerequisites: a C++14 compiler, CMake >= 3.10, and the Cochl.Sense Edge SDK staged at `./sense` (`include/` + `lib/`).
+Prerequisites: a C++14 compiler, CMake >= 3.13 (for the `cmake -B` option used below), and the Cochl.Sense Edge SDK staged at `./sense` (`include/` + `lib/`).
 
 ```bash
 cmake -B build

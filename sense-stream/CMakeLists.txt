@@ -1,5 +1,5 @@
 # sense-stream: stream-mode tutorial (real-time microphone capture).
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 
 # ---------------------------------------------------------------------------
 # miniaudio: vendored single-header capture library (sense-stream only). The
